@@ -1,0 +1,94 @@
+<%- include ("partials/header.ejs") %>
+
+<div class="container">
+
+<div class="container">
+    <h1>Share your experience!</h1>
+
+    <h3>Write your post here:</h3>
+
+    <form action="/submit" method="post">
+        <% if(itemPosit !==false) { %>
+
+            <label for="title">Title:</label>
+            <div class="input-group mb-3">
+                <input type="text" class="form-control" name="title" value="<%= posts[itemPosit].title %>">
+            </div>
+
+            <label for="post">Post</label>
+
+            <div class="input-group">
+                <textarea class="form-control" name="post"><%= posts[itemPosit].post %></textarea>
+            </div></br>
+            <div class="d-grid gap-2 mb-4 col-6 mx-auto">
+                <input type="submit" class="btn btn-dark" value="Save">
+            </div>
+            <% locals.editItem=false; %>
+                <% } else {%>
+
+                    <label for="title">Title:</label>
+                    <div class="input-group">
+                        <input type="text" class="form-control" name="title">
+                    </div>
+
+                    <label for="post">Post</label>
+
+                    <div class="input-group">
+                        <textarea class="form-control" name="post"></textarea>
+                    </div></br>
+                    <div class="d-grid gap-2 col-6 mb-4 mx-auto">
+                        <input type="submit" class="btn btn-dark" value="Share">
+                    </div>
+                    <% } %>
+
+    </form>
+</div>
+    
+
+<div class="container content ">
+
+    
+    <% if(posts.length> 0) { %>
+        <div class="container row">
+            <% for(var i=posts.length - 1; i>= 0 ; i--) {%>
+                <% const id="post" + i; %>
+                    <div class="container border-bottom col-lg-9">
+                        <a href="/post-<%= i %>">
+                            <h3>
+                                <%= posts[i].title %>
+                            </h3>
+                        </a>
+                        <p class="text">
+                            <%= posts[i].post %>
+                        </p>
+                        <div class="row justify-content-end">
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <form id="<%= i %>" action="/delete" method="post">
+                                    <button formaction="/delete" form="<%= i %>" class="btn btn-light"
+                                        type="submit" name="position" value="<%= i %>">Delete</button>
+                                </form>
+                            </div>
+                            <div class="col-lg-2 col-md-4 col-sm-6">
+                                <form id="<%= i+1 %>" action="/edit" method="post">
+                                    <button formaction="/edit" form="<%= i+1 %>" class="btn btn-dark"
+                                        type="submit" name="posit" value="<%= i+1 %>">Edit</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+
+                    <% } %>
+
+        </div>
+
+        <% }else {%>
+            <div> </div>
+            <% } %>
+</div>
+    
+
+    
+</div>
+    
+
+                <%- include ("partials/footer.ejs") %>
